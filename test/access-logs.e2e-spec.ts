@@ -29,11 +29,11 @@ describe('Access Logs E2E', () => {
   });
 
   beforeEach(async () => {
-    // Clean database
+    
     await dataSource.getRepository(AccessLogEntity).createQueryBuilder().delete().execute();
     await dataSource.getRepository(UserEntity).createQueryBuilder().delete().execute();
 
-    // Create admin user
+    
     const adminHashedPassword = await bcrypt.hash('admin123', 10);
     const adminEmail = faker.internet.email();
     admin = dataSource.getRepository(UserEntity).create({
@@ -44,7 +44,7 @@ describe('Access Logs E2E', () => {
     });
     await dataSource.getRepository(UserEntity).save(admin);
 
-    // Create regular user
+    
     const userHashedPassword = await bcrypt.hash('user123', 10);
     const userEmail = faker.internet.email();
     user = dataSource.getRepository(UserEntity).create({
@@ -55,7 +55,7 @@ describe('Access Logs E2E', () => {
     });
     await dataSource.getRepository(UserEntity).save(user);
 
-    // Generate tokens
+    
     adminToken = jwt.sign(
       { sub: admin.id, email: admin.email, role: admin.role },
       process.env.JWT_SECRET!,
@@ -68,7 +68,7 @@ describe('Access Logs E2E', () => {
       { expiresIn: '1h' }
     );
 
-    // Create some access logs
+    
     const logs = [
       {
         userId: admin.id,
@@ -111,7 +111,7 @@ describe('Access Logs E2E', () => {
           expect(Array.isArray(res.body)).toBe(true);
           expect(res.body.length).toBe(3);
           
-          // Should be ordered by createdAt DESC
+          
           const dates = res.body.map((log: any) => new Date(log.createdAt));
           expect(dates[0].getTime()).toBeGreaterThanOrEqual(dates[1].getTime());
           expect(dates[1].getTime()).toBeGreaterThanOrEqual(dates[2].getTime());
@@ -140,7 +140,6 @@ describe('Access Logs E2E', () => {
     });
 
     it('should limit results to 100 logs', async () => {
-      // Create more than 100 logs
       const logs = Array.from({ length: 150 }, (_, i) => ({
         userId: admin.id,
         email: admin.email,
@@ -163,7 +162,6 @@ describe('Access Logs E2E', () => {
     });
 
     it('should return empty array when no logs exist', async () => {
-      // Clean all logs
       await dataSource.getRepository(AccessLogEntity).createQueryBuilder().delete().execute();
 
       return request(app.getHttpServer())

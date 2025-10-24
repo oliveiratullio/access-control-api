@@ -17,7 +17,6 @@ describe('AccessLogController', () => {
   };
 
   const mockAccessLogService = {
-    // Add any service methods if needed
   };
 
   beforeEach(async () => {

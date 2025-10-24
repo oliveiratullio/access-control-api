@@ -28,11 +28,9 @@ describe('Users E2E', () => {
   });
 
   beforeEach(async () => {
-    // Clean database
     await dataSource.getRepository(AccessLogEntity).createQueryBuilder().delete().execute();
     await dataSource.getRepository(UserEntity).createQueryBuilder().delete().execute();
 
-    // Create admin user
     const adminHashedPassword = await bcrypt.hash('admin123', 10);
     const adminEmail = faker.internet.email();
     const admin = dataSource.getRepository(UserEntity).create({
@@ -43,7 +41,6 @@ describe('Users E2E', () => {
     });
     await dataSource.getRepository(UserEntity).save(admin);
 
-    // Create regular user
     const userHashedPassword = await bcrypt.hash('user123', 10);
     const userEmail = faker.internet.email();
     const user = dataSource.getRepository(UserEntity).create({
@@ -54,7 +51,6 @@ describe('Users E2E', () => {
     });
     await dataSource.getRepository(UserEntity).save(user);
 
-    // Generate tokens
     adminToken = jwt.sign(
       { sub: admin.id, email: adminEmail, role: admin.role },
       process.env.JWT_SECRET!,
@@ -197,16 +193,13 @@ describe('Users E2E', () => {
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
           name: 'New User',
-          // missing email and password
         })
         .expect(400);
     });
 
     it('should reject duplicate email', async () => {
-      // Generate a unique email for this test
       const duplicateTestEmail = "test@example.com";
       
-      // First create a user
       await request(app.getHttpServer())
         .post('/users')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -217,7 +210,6 @@ describe('Users E2E', () => {
         })
         .expect(201);
 
-      // Try to create another user with same email
       return request(app.getHttpServer())
         .post('/users')
         .set('Authorization', `Bearer ${adminToken}`)

@@ -20,7 +20,6 @@ export class UsersController {
     console.log('User ID from token:', userId);
     const me = await this.usersService.findById(userId);
     console.log('User found:', me);
-    // por segurança, não retornar hash
     if (me) delete (me as any).passwordHash;
     return me;
   }

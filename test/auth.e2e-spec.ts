@@ -24,11 +24,9 @@ describe('Auth E2E', () => {
   });
 
   beforeEach(async () => {
-    // Clean database
     await dataSource.getRepository(AccessLogEntity).createQueryBuilder().delete().execute();
     await dataSource.getRepository(UserEntity).createQueryBuilder().delete().execute();
 
-    // Create test user
     const hashedPassword = await bcrypt.hash('password123', 10);
     const testEmail = faker.internet.email();
     TestEmail = testEmail;
@@ -91,7 +89,6 @@ describe('Auth E2E', () => {
         .post('/auth/login')
         .send({
           email: testEmail,
-          // missing password
         })
         .expect(401);
     });

@@ -27,7 +27,6 @@ export class AuthController {
       req.connection?.remoteAddress ??
       'unknown';
 
-    // O LocalAuthGuard já validou as credenciais e colocou o usuário em req.user
     const payload = { sub: user.id, email: user.email, role: user.role };
     const access_token = await this.jwtService.signAsync(payload);
     await this.accessLogService.record(user.id, user.email, ip);

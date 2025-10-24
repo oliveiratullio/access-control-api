@@ -24,7 +24,6 @@ describe('Integration E2E', () => {
   });
 
   beforeEach(async () => {
-    // Clean database
     await dataSource.getRepository(AccessLogEntity).createQueryBuilder().delete().execute();
     await dataSource.getRepository(UserEntity).createQueryBuilder().delete().execute();
   });
