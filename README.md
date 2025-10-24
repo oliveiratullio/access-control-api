@@ -49,9 +49,11 @@ DB_NAME=access_control
 2. Garanta que seu .env utiliza as mesmas credenciais do docker-compose (user=app, pass=app, db=access_control)
 3. Instale dependências:
    - `pnpm install`
-4. Inicie a API:
+4. Popule o banco com o seed:
+   - `pnpm run seed:admin`
+5. Inicie a API:
    - `pnpm start:dev`
-5. Swagger: acesse `http://localhost:3000/docs`
+6. Swagger: acesse `http://localhost:3000/docs`
 
 Opcionais no docker-compose:
 - Redis (porta 6379) para cache de autenticação
@@ -68,6 +70,7 @@ Observação: o TypeORM está configurado com `synchronize=false`. Execute suas 
 
 ## Comandos úteis
 - `pnpm start:dev` — inicia em modo desenvolvimento
+- `pnpm run seed:admin` — cria um usuário admin com email `admin@example.com` e senha `123456`
 - `pnpm build` — compila para produção
 - `pnpm start:prod` — inicia o build compilado
 - `pnpm test` — testes unitários
