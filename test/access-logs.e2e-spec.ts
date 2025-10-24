@@ -9,6 +9,9 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { faker } from '@faker-js/faker';
 
+// Tipos auxiliares para respostas
+type AccessLogResponse = AccessLogEntity;
+
 describe('Access Logs E2E', () => {
   let app: INestApplication;
   let dataSource: DataSource;
@@ -110,13 +113,11 @@ describe('Access Logs E2E', () => {
         .expect((res) => {
           expect(Array.isArray(res.body)).toBe(true);
           expect(res.body.length).toBe(3);
-          
-          
-          const dates = res.body.map((log: any) => new Date(log.createdAt));
+          const dates = (res.body as AccessLogResponse[]).map((log) => new Date(log.createdAt));
           expect(dates[0].getTime()).toBeGreaterThanOrEqual(dates[1].getTime());
           expect(dates[1].getTime()).toBeGreaterThanOrEqual(dates[2].getTime());
 
-          res.body.forEach((log: any) => {
+          (res.body as AccessLogResponse[]).forEach((log) => {
             expect(log).toHaveProperty('id');
             expect(log).toHaveProperty('userId');
             expect(log).toHaveProperty('email');

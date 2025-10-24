@@ -9,6 +9,9 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { faker } from '@faker-js/faker';
 
+
+type SafeUser = Omit<UserEntity, 'passwordHash'>;
+
 describe('Users E2E', () => {
   let app: INestApplication;
   let dataSource: DataSource;
@@ -115,7 +118,7 @@ describe('Users E2E', () => {
         .expect((res) => {
           expect(Array.isArray(res.body)).toBe(true);
           expect(res.body.length).toBe(2);
-          res.body.forEach((user: any) => {
+          (res.body as SafeUser[]).forEach((user) => {
             expect(user).not.toHaveProperty('passwordHash');
             expect(user).toHaveProperty('id');
             expect(user).toHaveProperty('email');
