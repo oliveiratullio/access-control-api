@@ -109,7 +109,6 @@ jobs:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: 10.18.2
         run_install: false
 
     - name: Install dependencies
@@ -140,7 +139,6 @@ jobs:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: 10.18.2
         run_install: false
 
     - name: Install dependencies
