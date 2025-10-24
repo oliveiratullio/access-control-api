@@ -2,6 +2,7 @@
   "preset": "ts-jest/presets/default-esm",
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
+  "roots": ["<rootDir>", "<rootDir>/../"],
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
@@ -16,18 +17,20 @@
   "globals": {
     "ts-jest": {
       "useESM": true,
-      "tsconfig": {
-        "module": "es2020",
-        "target": "ES2020"
-      }
+      "tsconfig": "<rootDir>/../tsconfig.json"
     }
   },
-  "extensionsToTreatAsEsm": [".ts"],
+  "moduleDirectories": [
+    "node_modules",
+    "<rootDir>/../node_modules"
+  ],
   "moduleNameMapper": {
-    "^src/(.*)$": "<rootDir>/../src/$1",
-    "^(\\.{1,2}/.*)\\.js$": "$1"
+    "^src/(.*)$": "<rootDir>/../src/$1"
   },
   "transformIgnorePatterns": [
-    "node_modules/(?!(@faker-js|bcrypt)/.*)"
+    "node_modules/(?!(@faker-js)/.*)"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/setup.ts"
   ]
 }
