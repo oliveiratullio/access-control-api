@@ -35,6 +35,12 @@ jobs:
         node-version: '18'
         cache: 'pnpm'
 
+    - name: Enable Corepack (pnpm)
+      run: corepack enable
+
+    - name: Prepare pnpm
+      run: corepack prepare pnpm@10.18.2 --activate
+
     - name: Install dependencies
       run: pnpm import && pnpm install --frozen-lockfile
 
@@ -101,6 +107,12 @@ jobs:
         node-version: '18'
         cache: 'pnpm'
 
+    - name: Enable Corepack (pnpm)
+      run: corepack enable
+
+    - name: Prepare pnpm
+      run: corepack prepare pnpm@10.18.2 --activate
+
     - name: Install dependencies
       run: pnpm import && pnpm install --frozen-lockfile
 
@@ -125,6 +137,12 @@ jobs:
       with:
         node-version: '18'
         cache: 'pnpm'
+
+    - name: Enable Corepack (pnpm)
+      run: corepack enable
+
+    - name: Prepare pnpm
+      run: corepack prepare pnpm@10.18.2 --activate
 
     - name: Install dependencies
       run: pnpm import && pnpm install --frozen-lockfile
